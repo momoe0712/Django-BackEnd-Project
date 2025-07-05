@@ -65,7 +65,7 @@ python manage.py createsuperuser
 python manage.py runserver
 ```
 
-## Result 
+## 🧪 Result 
 ### Home Page
 <p align="left">
 	<img src="./assets/home.png">
