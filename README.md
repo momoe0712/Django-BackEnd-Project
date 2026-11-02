@@ -1,84 +1,132 @@
-# Django BackEnd Project
+# Little Lemon – Django Back-End Project
 
-This repository contains a Django-based backend application from [Meta Back-End Developer Professional Certificate](https://www.coursera.org/professional-certificates/meta-back-end-developer). It provides APIs and backend functionality for a restaurant-related service (e.g., menu management, reservations, etc.).
+A restaurant web application built with Django: menu pages, a table-booking flow, and a small JSON endpoint for reservations. It is the capstone project of the [Meta Back-End Developer Professional Certificate](https://www.coursera.org/professional-certificates/meta-back-end-developer) on Coursera, extended with automated tests, environment-based configuration, and a live deployment.
 
-## 📂 Project Structure
+**Live demo:** https://momoe.pythonanywhere.com
+*(Hosted on a free PythonAnywhere plan, so it may occasionally be offline.)*
 
-```
-├── littlelemon/
-├── restaurant/
-├── db.sqlite3
-├── manage.py
-├── Pipfile
-├── Pipfile.lock
-└── requirements.txt
-```
+> This is a learning project, not a production system. See [Known limitations](#known-limitations).
 
-## 🚀 Features
+## Features
 
-- Django backend with modular apps
-- RESTful API endpoints
-- SQLite database
-- Easy environment management
+- Home and About pages built from reusable base and partial templates
+- Menu list and menu item detail pages (dynamic URL parameter `menu_item/<pk>/`)
+- Booking form (Django `ModelForm`) with a live list of bookings for the selected date
+- JSON endpoint `/bookings` that returns reservations by date and rejects a new booking when the date and time slot is already taken
+- Reservations page showing all bookings in a table
+- Django admin for managing menu content
+- Schema managed through Django migrations
+- 13 automated tests (Django `TestCase`)
 
-## 🛠️ Installation
+## Tech stack
 
-1. Clone the repository
+Python 3 · Django 5.2 · SQLite · HTML / CSS / vanilla JavaScript
+
+The course version used MySQL. This version uses SQLite so the project runs without installing a database server.
+
+## Pages and endpoints
+
+| URL | Description |
+|---|---|
+| `/` | Home page |
+| `/about/` | About page |
+| `/menu/` | Menu list |
+| `/menu_item/<pk>/` | Menu item detail |
+| `/book/` | Booking form |
+| `/reservations/` | All reservations (table) |
+| `/bookings?date=YYYY-MM-DD` | `GET`: reservations for a date, as JSON |
+| `/bookings` | `POST` (JSON body with `first_name`, `reservation_date`, `reservation_slot`): create a booking, or return an error if the slot is taken |
+| `/admin/` | Django admin |
+
+## Run locally
 
 ```bash
 git clone https://github.com/momoe0712/Django-BackEnd-Project.git
 cd Django-BackEnd-Project
-```
 
-2. Create a virtual environment
-
-Using Pipenv:
-
-```bash
-pipenv install
-pipenv shell
-```
-
-Or using venv + pip:
-
-```bash
+# create an environment (venv shown; conda works too)
 python -m venv venv
-source venv/bin/activate
+venv\Scripts\activate          # Windows
+# source venv/bin/activate     # Linux / macOS
+
 pip install -r requirements.txt
-```
 
-3. Apply migrations
-
-```bash
 python manage.py migrate
+python manage.py loaddata menu      # sample menu items
+python manage.py createsuperuser    # for /admin/
 ```
 
-4. Create a superuser
+Debug mode is off by default, so enable it for local development:
 
 ```bash
-python manage.py createsuperuser
-```
+set DEBUG=True                  # Windows Command Prompt
+# $env:DEBUG="True"             # Windows PowerShell
+# export DEBUG=True             # Linux / macOS
 
-5. Run the server
-
-```bash
 python manage.py runserver
 ```
 
-## 🧪 Result 
-### Home Page
+Open http://127.0.0.1:8000/.
+
+## Run the tests
+
+```bash
+python manage.py test
+```
+
+The test suite covers:
+
+- Model string representations
+- Booking form validation (valid data, missing name)
+- Page responses (home, about, book, reservations, menu) and menu list/detail content
+- Reservations page content, including readable time labels
+- Booking form submission saving a booking
+- Booking endpoint: creating a booking, rejecting a taken slot, allowing the same slot on a different date, and filtering by date
+
+## Configuration
+
+Settings are read from environment variables, so no secrets are stored in the repository.
+
+| Variable | Purpose | Default |
+|---|---|---|
+| `SECRET_KEY` | Django secret key | insecure dev-only key |
+| `DEBUG` | `True` for local development | `False` |
+| `ALLOWED_HOSTS` | Comma-separated host names | `localhost,127.0.0.1` |
+| `CSRF_TRUSTED_ORIGINS` | Comma-separated origins, e.g. `https://example.com` | empty |
+
+Always set a new `SECRET_KEY` in any deployed environment.
+
+## Deployment
+
+Deployed on PythonAnywhere (manual configuration, WSGI, virtualenv). After each `git pull` on the server:
+
+```bash
+python manage.py migrate
+python manage.py collectstatic --noinput
+```
+
+then reload the web app. Open https://momoe.pythonanywhere.com/ for the deployed web.
+
+## Known limitations
+
+- `/bookings` is CSRF-exempt and has no authentication, as in the course material. Anyone can create a booking.
+- Duplicate-slot protection is enforced in the JSON endpoint only. The `/book/` form view and the database do not enforce it (a `unique_together` constraint on date and slot would).
+- The menu item page expects an image named after the item in `restaurant/static/img/menu_items/`.
+
+## Screenshots
+
+### Home page
 <p align="left">
 	<img src="./assets/home.png">
 </p>
 
-### About Page
+### About page
 <p align="left">
 	<img src="./assets/about.png">
 </p>
 
-## ✨ Acknowledgements
+## Acknowledgements
 
 - [Meta Back-End Developer Professional Certificate](https://www.coursera.org/professional-certificates/meta-back-end-developer)
 - [Django Docs](https://docs.djangoproject.com/)
 - [Python Docs](https://docs.python.org/)
-
