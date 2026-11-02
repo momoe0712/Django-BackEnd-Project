@@ -105,7 +105,7 @@ python manage.py migrate
 python manage.py collectstatic --noinput
 ```
 
-then reload the web app. Open https://momoe.pythonanywhere.com/ for the deployed web.
+then reload the web app.
 
 ## Known limitations
 
