@@ -1,0 +1,38 @@
+[
+  {
+    "model": "restaurant.menu",
+    "pk": 1,
+    "fields": {
+      "name": "Greek salad",
+      "price": 12,
+      "menu_item_description": "Our famous Greek salad of crispy lettuce, peppers, olives, and our\r\nChicago-style feta cheese. Garnished with crispy onion and salty capers."
+    }
+  },
+  {
+    "model": "restaurant.menu",
+    "pk": 2,
+    "fields": {
+      "name": "Grilled fish",
+      "price": 9,
+      "menu_item_description": ""
+    }
+  },
+  {
+    "model": "restaurant.menu",
+    "pk": 3,
+    "fields": {
+      "name": "Bruschetta",
+      "price": 11,
+      "menu_item_description": ""
+    }
+  },
+  {
+    "model": "restaurant.menu",
+    "pk": 4,
+    "fields": {
+      "name": "Lemon dessert",
+      "price": 7,
+      "menu_item_description": ""
+    }
+  }
+]
