@@ -18,10 +18,8 @@ def about(request):
     return render(request, 'about.html')
 
 def reservations(request):
-    date = request.GET.get('date',datetime.today().date())
-    bookings = Booking.objects.all()
-    booking_json = serializers.serialize('json', bookings)
-    return render(request, 'bookings.html',{"bookings":booking_json})
+    bookings = Booking.objects.order_by('reservation_date', 'reservation_slot')
+    return render(request, 'bookings.html', {"bookings": bookings})
 
 def book(request):
     form = BookingForm()

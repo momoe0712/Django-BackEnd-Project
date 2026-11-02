@@ -10,6 +10,13 @@ class Booking(models.Model):
     def __str__(self): 
         return self.first_name
 
+    @property
+    def slot_label(self):
+        hour = self.reservation_slot
+        suffix = 'AM' if hour < 12 else 'PM'
+        hour12 = hour if hour <= 12 else hour - 12
+        return f"{hour12} {suffix}"
+
 
 # Add code to create Menu model
 class Menu(models.Model):
