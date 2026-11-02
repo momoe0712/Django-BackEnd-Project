@@ -16,7 +16,7 @@ A restaurant web application built with Django: menu pages, a table-booking flow
 - Reservations page showing all bookings in a table
 - Django admin for managing menu content
 - Schema managed through Django migrations
-- 13 automated tests (Django `TestCase`)
+- 12 automated tests (Django `TestCase`)
 
 ## Tech stack
 
@@ -44,24 +44,20 @@ The course version used MySQL. This version uses SQLite so the project runs with
 git clone https://github.com/momoe0712/Django-BackEnd-Project.git
 cd Django-BackEnd-Project
 
-# create an environment (venv shown; conda works too)
 python -m venv venv
-venv\Scripts\activate          # Windows
-# source venv/bin/activate     # Linux / macOS
+venv\Scripts\activate          
 
 pip install -r requirements.txt
 
 python manage.py migrate
-python manage.py loaddata menu      # sample menu items
-python manage.py createsuperuser    # for /admin/
+python manage.py loaddata menu      
+python manage.py createsuperuser    
 ```
 
 Debug mode is off by default, so enable it for local development:
 
 ```bash
-set DEBUG=True                  # Windows Command Prompt
-# $env:DEBUG="True"             # Windows PowerShell
-# export DEBUG=True             # Linux / macOS
+set DEBUG=True                  
 
 python manage.py runserver
 ```
